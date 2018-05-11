@@ -1,0 +1,20 @@
+parameters:
+    files_directory: '%kernel.root_dir%/../web/uploads/files'
+    download_path: '/uploads/files'
+    files_parts: 4
+
+services:
+    file_uploader:
+        class: AppBundle\Helper\FileUploader
+        public: true
+        arguments: ['%files_directory%']
+
+    storage.redis:
+        class: AppBundle\Storage\RedisCacheRepository
+        arguments: ['@snc_redis.default']
+        public: true
+
+    file_helper:
+        class: AppBundle\Helper\FileHelper
+        public: true
+        arguments: ['%files_directory%','@storage.redis']
